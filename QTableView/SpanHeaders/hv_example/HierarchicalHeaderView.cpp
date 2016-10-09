@@ -139,14 +139,14 @@ class HierarchicalHeaderView::private_data
         void setForegroundBrush(QStyleOptionHeader& opt, const QModelIndex& index) const
         {
             QVariant foregroundBrush = index.data(Qt::ForegroundRole);
-            if (qVariantCanConvert<QBrush>(foregroundBrush))
+            if (foregroundBrush.canConvert<QBrush>())
                 opt.palette.setBrush(QPalette::ButtonText, qvariant_cast<QBrush>(foregroundBrush));
         }
 
         void setBackgroundBrush(QStyleOptionHeader& opt, const QModelIndex& index) const
         {
             QVariant backgroundBrush = index.data(Qt::BackgroundRole);
-            if (qVariantCanConvert<QBrush>(backgroundBrush))
+            if (backgroundBrush.canConvert<QBrush>())
             {
                 opt.palette.setBrush(QPalette::Button, qvariant_cast<QBrush>(backgroundBrush));
                 opt.palette.setBrush(QPalette::Window, qvariant_cast<QBrush>(backgroundBrush));
@@ -164,7 +164,7 @@ class HierarchicalHeaderView::private_data
                 res=qvariant_cast<QSize>(variant);
             QFont fnt(hv->font());
             QVariant var(leafIndex.data(Qt::FontRole));
-            if (var.isValid() && qVariantCanConvert<QFont>(var))
+            if (var.isValid() && var.canConvert<QFont>())
                 fnt = qvariant_cast<QFont>(var);
             fnt.setBold(true);
             QFontMetrics fm(fnt);
@@ -401,7 +401,7 @@ QStyleOptionHeader HierarchicalHeaderView::styleOptionForCell(int logicalInd) co
             opt.position=(visual==count()-1 ? QStyleOptionHeader::End : QStyleOptionHeader::Middle);
     }
 
-    if(isClickable())
+    if(sectionsClickable())
     {
 /*
         if (logicalIndex == d->hover)

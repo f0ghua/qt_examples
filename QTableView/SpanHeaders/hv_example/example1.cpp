@@ -25,9 +25,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <QtGui>
 #include <QAbstractTableModel>
 #include <QStandardItemModel>
+#include <QTableView>
+#include <QApplication>
 
 #include "HierarchicalHeaderView.h"
 
@@ -51,12 +52,12 @@ class ExampleModel: public QAbstractTableModel
 			QStandardItem* cell=new QStandardItem("level 2");
 			l.push_back(cell);
 			rootItem->appendColumn(l);
-			
+
 			l.clear();
 
 			l.push_back(new QStandardItem("level 3"));
 			cell->appendColumn(l);
-			
+
 			l.clear();
 
 			l.push_back(new QStandardItem("level 3"));
@@ -108,7 +109,7 @@ class ExampleModel: public QAbstractTableModel
 		return QVariant();
 	}
 
-/*    Qt::ItemFlags flags ( const QModelIndex & index ) const 
+/*    Qt::ItemFlags flags ( const QModelIndex & index ) const
 	{
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 	}*/
@@ -121,11 +122,11 @@ int main(int argc, char *argv[])
 	QTableView tv;
 	HierarchicalHeaderView* hv=new HierarchicalHeaderView(Qt::Horizontal, &tv);
     hv->setHighlightSections(true);
-    hv->setClickable(true);
+    hv->setSectionsClickable(true);
 	tv.setHorizontalHeader(hv);
 	hv=new HierarchicalHeaderView(Qt::Vertical, &tv);
     hv->setHighlightSections(true);
-    hv->setClickable(true);
+    hv->setSectionsClickable(true);
     tv.setVerticalHeader(hv);
 	tv.setModel(&em);
 	tv.resizeColumnsToContents();
