@@ -1,0 +1,7 @@
+*.pdb
+ui_*
+moc_*
+debug
+release
+*.pro.user
+Makefile*
