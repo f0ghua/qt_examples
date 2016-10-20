@@ -27,16 +27,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <QtGui>
 #include <QStandardItemModel>
+#include <QTableView>
+#include <QApplication>
 
 #include "ProxyModelWithHeaderModels.h"
 
 void BuildDataModel(QStandardItemModel& model)
 {
 	QString cellText("cell(%1, %2)");
-	for(int i=0; i<4; ++i)
+    for(int i=0; i<9; ++i)
 	{
 		QList<QStandardItem*> l;
-		for(int j=0; j<4; ++j)
+        for(int j=0; j<9; ++j)
 		{
 			QStandardItem* cell=new QStandardItem(cellText.arg(i).arg(j));
 			l.push_back(cell);
@@ -47,36 +49,72 @@ void BuildDataModel(QStandardItemModel& model)
 
 void BuildHeaderModel(QStandardItemModel& headerModel)
 {
-	QStandardItem* rootItem = new QStandardItem("root");
-	QList<QStandardItem*> l;
+    //START ADDING HEADERS(Can also be done in a separate function)
+    QStandardItem *Header1 = new QStandardItem(QObject::tr("Header1"));
+    QStandardItem *Header2 = new QStandardItem(QObject::tr("Header2"));
+    QStandardItem *Header3 = new QStandardItem(QObject::tr("Header3"));
+    QStandardItem *Header4 = new QStandardItem(QObject::tr("Header4"));
+    QStandardItem *Header5 = new QStandardItem(QObject::tr("Header5"));
+    QStandardItem *Header6 = new QStandardItem(QObject::tr("Header6"));
+    QStandardItem *Header7 = new QStandardItem(QObject::tr("Header7"));
+    QStandardItem *Header8 = new QStandardItem(QObject::tr("Header8"));
 
-	QStandardItem* rotatedTextCell=new QStandardItem("Rotated text");
-	rotatedTextCell->setData(1, Qt::UserRole);
-	l.push_back(rotatedTextCell);
-	rootItem->appendColumn(l);
+    QList<QStandardItem *> l;
+    l.push_back( new QStandardItem("Sub Header1"));
+    Header3->appendColumn(l);
 
-	l.clear();
+    l.clear();
+    l.push_back(new QStandardItem("Sub Header2"));
+    Header3->appendColumn(l);
 
-	QStandardItem* cell=new QStandardItem("level 2");
-	l.push_back(cell);
-	rootItem->appendColumn(l);
+    l.clear();
+    l.push_back(new QStandardItem("Sub Header3"));
+    Header6->appendColumn(l);
+
+    l.clear();
+    l.push_back(new QStandardItem("Sub Header4"));
+    Header6->appendColumn(l);
+
+    //Add all the table header items to to table header model.
+    headerModel.setItem(0, 0, Header1);
+    headerModel.setItem(0, 1, Header2);
+    headerModel.setItem(0, 2, Header3);
+    headerModel.setItem(0, 3, Header4);
+    headerModel.setItem(0, 4, Header5);
+    headerModel.setItem(0, 5, Header6);
+    headerModel.setItem(0, 6, Header7);
+    headerModel.setItem(0, 7, Header8);
+    //END ADDING HEADERS
+
+//	QStandardItem* rootItem = new QStandardItem("root");
+//	QList<QStandardItem*> l;
+
+//	QStandardItem* rotatedTextCell=new QStandardItem("Rotated text");
+//	rotatedTextCell->setData(1, Qt::UserRole);
+//	l.push_back(rotatedTextCell);
+//	rootItem->appendColumn(l);
+
+//	l.clear();
+
+//	QStandardItem* cell=new QStandardItem("level 2");
+//	l.push_back(cell);
+//	rootItem->appendColumn(l);
 	
-	l.clear();
+//	l.clear();
 
-	l.push_back(new QStandardItem("level 3"));
-	cell->appendColumn(l);
+//	l.push_back(new QStandardItem("level 3"));
+//	cell->appendColumn(l);
 	
-	l.clear();
+//	l.clear();
 
-	l.push_back(new QStandardItem("level 3"));
-	cell->appendColumn(l);
+//	l.push_back(new QStandardItem("level 3"));
+//	cell->appendColumn(l);
 
-	l.clear();
+//	l.clear();
 
-	l.push_back(new QStandardItem("level 2"));
-	rootItem->appendColumn(l);
+//	l.push_back(new QStandardItem("level 2"));
+//	rootItem->appendColumn(l);
 
-	headerModel.setItem(0, 0, rootItem);
 }
 
 int main(int argc, char *argv[])
@@ -84,24 +122,34 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 
 	QStandardItemModel headerModel;
-	BuildHeaderModel(headerModel);
+    BuildHeaderModel(headerModel);
 
 	QStandardItemModel dataModel;
-	BuildDataModel(dataModel);
+    BuildDataModel(dataModel);
 
-	ProxyModelWithHeaderModels model;
-	model.setModel(&dataModel);
-	model.setHorizontalHeaderModel(&headerModel);
-	model.setVerticalHeaderModel(&headerModel);
+    ProxyModelWithHeaderModels proxyModel;
 
-	QTableView tv;
-	HierarchicalHeaderView* hv=new HierarchicalHeaderView(Qt::Horizontal, &tv);
-	tv.setHorizontalHeader(hv);
-	hv=new HierarchicalHeaderView(Qt::Vertical, &tv);
-	tv.setVerticalHeader(hv);
-	tv.setModel(&model);
-	tv.resizeColumnsToContents();
-	tv.resizeRowsToContents();
-	tv.show();
+    proxyModel.setSourceModel(&dataModel);
+    proxyModel.setHorizontalHeaderModel(&headerModel);
+    proxyModel.setVerticalHeaderModel(&headerModel);
+
+    QTableView tableView;
+    tableView.setModel(&proxyModel);
+
+    //Create the headerview and set the column span.
+    HierarchicalHeaderView *headerView = new HierarchicalHeaderView(Qt::Horizontal, &tableView);
+    tableView.setHorizontalHeader(headerView);
+
+    tableView.show();
+
+//	QTableView tv;
+//	HierarchicalHeaderView* hv=new HierarchicalHeaderView(Qt::Horizontal, &tv);
+//	tv.setHorizontalHeader(hv);
+//	hv=new HierarchicalHeaderView(Qt::Vertical, &tv);
+//	tv.setVerticalHeader(hv);
+//	tv.setModel(&model);
+//	tv.resizeColumnsToContents();
+//	tv.resizeRowsToContents();
+//	tv.show();
 	return app.exec();
 }

@@ -28,7 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ProxyModelWithHeaderModels.h"
 
 ProxyModelWithHeaderModels::ProxyModelWithHeaderModels(QObject* parent)
-	: QProxyModel(parent)
+    : QSortFilterProxyModel(parent)
 {}
 
 QVariant ProxyModelWithHeaderModels::data(const QModelIndex& index, int role) const
@@ -45,21 +45,21 @@ QVariant ProxyModelWithHeaderModels::data(const QModelIndex& index, int role) co
 		v.setValue((QObject*)_verticalHeaderModel.data());
 		return v;
 	}
-	return QProxyModel::data(index, role);
+    return QAbstractProxyModel::data(index, role);
 }
 
-void ProxyModelWithHeaderModels::setHorizontalHeaderModel(QAbstractItemModel* headerModel)
+void ProxyModelWithHeaderModels::setHorizontalHeaderModel(QAbstractItemModel *headerModel)
 {
-	_horizontalHeaderModel=headerModel;
-	int cnt=model()->columnCount();
-	if(cnt)
-		emit headerDataChanged(Qt::Horizontal, 0, cnt-1);
+    _horizontalHeaderModel=headerModel;
+    int cnt= headerModel->columnCount();
+    if(cnt)
+        emit headerDataChanged(Qt::Horizontal, 0, cnt-1);
 }
 
-void ProxyModelWithHeaderModels::setVerticalHeaderModel(QAbstractItemModel* headerModel)
+void ProxyModelWithHeaderModels::setVerticalHeaderModel(QAbstractItemModel *headerModel)
 {
-	_verticalHeaderModel=headerModel;
-	int cnt=model()->rowCount();
-	if(cnt)
-		emit headerDataChanged(Qt::Vertical, 0, cnt-1);
+    _verticalHeaderModel=headerModel;
+    int cnt= headerModel->rowCount();
+    if(cnt)
+        emit headerDataChanged(Qt::Vertical, 0, cnt-1);
 }

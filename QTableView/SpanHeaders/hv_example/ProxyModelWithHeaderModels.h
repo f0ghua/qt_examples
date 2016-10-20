@@ -28,11 +28,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef PROXY_MODEL_WITH_HEADER_MODELS
 #define PROXY_MODEL_WITH_HEADER_MODELS
 
-#include <QProxyModel>
+#include <QSortFilterProxyModel>
 #include <QPointer>
 #include "HierarchicalHeaderView.h"
 
-class ProxyModelWithHeaderModels: public QProxyModel
+class ProxyModelWithHeaderModels: public QSortFilterProxyModel
 {
 		Q_OBJECT
 
