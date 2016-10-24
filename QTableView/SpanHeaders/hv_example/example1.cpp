@@ -124,10 +124,12 @@ int main(int argc, char *argv[])
     hv->setHighlightSections(true);
     hv->setSectionsClickable(true);
 	tv.setHorizontalHeader(hv);
+#if 0
 	hv=new HierarchicalHeaderView(Qt::Vertical, &tv);
     hv->setHighlightSections(true);
     hv->setSectionsClickable(true);
     tv.setVerticalHeader(hv);
+#endif
 	tv.setModel(&em);
 	tv.resizeColumnsToContents();
 	tv.resizeRowsToContents();
