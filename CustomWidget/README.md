@@ -1,0 +1,2 @@
+- xsLed is the plugin for qtdesinger/qtcreator
+- qtWStudy is a example app which use xsLed
