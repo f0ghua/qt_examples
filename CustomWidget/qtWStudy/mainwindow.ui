@@ -15,6 +15,9 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" colspan="2">
+     <widget class="QPlainTextEdit" name="plainTextEdit"/>
+    </item>
     <item row="1" column="0">
      <spacer name="horizontalSpacer">
       <property name="orientation">
@@ -39,14 +42,17 @@
      <widget class="XSLed" name="xSLed">
       <property name="minimumSize">
        <size>
-        <width>28</width>
-        <height>28</height>
+        <width>40</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>40</width>
+        <height>40</height>
        </size>
       </property>
      </widget>
-    </item>
-    <item row="0" column="0" colspan="3">
-     <widget class="QPlainTextEdit" name="plainTextEdit"/>
     </item>
    </layout>
   </widget>
@@ -74,7 +80,7 @@
  <customwidgets>
   <customwidget>
    <class>XSLed</class>
-   <extends>QWidget</extends>
+   <extends></extends>
    <header>xsled.h</header>
   </customwidget>
  </customwidgets>

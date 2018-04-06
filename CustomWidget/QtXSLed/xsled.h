@@ -20,12 +20,11 @@ class XSLed: public QWidget {
   protected:
     void paintEvent(QPaintEvent *);
   private:
-    bool lit;
+    bool m_isOn = false;
     QColor ledOnColor;
     QColor ledOffColor;
     Qt::BrushStyle ledOnPattern;
     Qt::BrushStyle ledOffPattern;
-    int ledSize;
 };
 
 #endif
